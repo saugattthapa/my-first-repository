@@ -89,3 +89,17 @@ part2_summary %>%
                       "# Sessions", "# Unique Players"),
         caption = "Table 2: Player Engagement by Game Genre") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+
+# PART 2 – Step 3: Visualisation
+ggplot(part2_summary,
+       aes(x = reorder(genre, num_unique_players),
+           y = num_unique_players, fill = genre)) +
+  geom_col(width = 0.6, show.legend = FALSE) +
+  geom_text(aes(label = num_unique_players), hjust = -0.2, size = 3.5) +
+  coord_flip() +
+  scale_fill_brewer(palette = "Paired") +
+  labs(title = "Number of Unique Players by Game Genre",
+       x     = "Genre",
+       y     = "Number of Unique Players") +
+  theme_minimal(base_size = 13) +
+  expand_limits(y = max(part2_summary$num_unique_players) * 1.1)
