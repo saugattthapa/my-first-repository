@@ -35,3 +35,22 @@ sessions_exp <- sessions %>%
   inner_join(players %>% select(player_id, experience_level),
              by = "player_id") %>%
   filter(!is.na(experience_level))
+
+# PART 1 – Step 2: Summary table
+part1_summary <- sessions_exp %>%
+  group_by(experience_level) %>%
+  summarise(
+    num_players       = n_distinct(player_id),
+    avg_play_time_min = round(mean(play_time_minutes, na.rm = TRUE), 2),
+    avg_score         = round(mean(score,             na.rm = TRUE), 2),
+    .groups = "drop"
+  ) %>%
+  mutate(experience_level = factor(experience_level,
+                                   levels = c("Veteran", "Intermediate", "New"))) %>%
+  arrange(experience_level)
+
+part1_summary %>%
+  kable(col.names = c("Experience Level", "# Players",
+                      "Avg Play Time (min)", "Avg Score"),
+        caption = "Table 1: Player Engagement by Experience Level") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
