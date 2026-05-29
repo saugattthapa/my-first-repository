@@ -151,3 +151,20 @@ sessions %>%
        y        = "Score") +
   theme_minimal(base_size = 13) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+# PART 4 – Step 1: Create age groups and join with sessions
+players_valid_age <- players %>%
+  filter(!is.na(age) & age >= 16)
+
+players_valid_age$age_group <- cut(
+  players_valid_age$age,
+  breaks = c(15, 25, 35, 45, Inf),
+  labels = c("16-25", "26-35", "36-45", "46+"),
+  right  = TRUE
+)
+
+sessions_age <- sessions %>%
+  inner_join(players_valid_age %>% select(player_id, age_group),
+             by = "player_id") %>%
+  filter(!is.na(age_group))
