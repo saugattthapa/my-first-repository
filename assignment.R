@@ -168,3 +168,19 @@ sessions_age <- sessions %>%
   inner_join(players_valid_age %>% select(player_id, age_group),
              by = "player_id") %>%
   filter(!is.na(age_group))
+
+# PART 4 – Step 2: Summary table
+part4_summary <- sessions_age %>%
+  group_by(age_group) %>%
+  summarise(
+    avg_play_time_min = round(mean(play_time_minutes, na.rm = TRUE), 2),
+    avg_score         = round(mean(score,             na.rm = TRUE), 2),
+    num_sessions      = n(),
+    .groups = "drop"
+  )
+
+part4_summary %>%
+  kable(col.names = c("Age Group", "Avg Play Time (min)",
+                      "Avg Score", "# Sessions"),
+        caption = "Table 4: Gaming Behaviour by Age Group") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
