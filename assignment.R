@@ -54,3 +54,14 @@ part1_summary %>%
                       "Avg Play Time (min)", "Avg Score"),
         caption = "Table 1: Player Engagement by Experience Level") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+
+# PART 1 – Step 3: Visualisation
+ggplot(part1_summary,
+       aes(x = experience_level, y = avg_play_time_min, fill = experience_level)) +
+  geom_col(width = 0.55, show.legend = FALSE) +
+  geom_text(aes(label = avg_play_time_min), vjust = -0.4, size = 3.5) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(title = "Average Play Time by Player Experience Group",
+       x     = "Experience Level",
+       y     = "Average Play Time (minutes)") +
+  theme_minimal(base_size = 13)
