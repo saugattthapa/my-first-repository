@@ -136,3 +136,18 @@ part3_summary %>%
                       "Total Play Time (min)"),
         caption = "Table 3: Top 10 Players by Total Play Time") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+
+# PART 3 – Step 3: Boxplot of score distribution for top 10 players
+sessions %>%
+  filter(player_id %in% top10_ids, !is.na(score)) %>%
+  mutate(player_id = factor(player_id)) %>%
+  ggplot(aes(x = reorder(player_id, score, FUN = median),
+             y = score, fill = player_id)) +
+  geom_boxplot(outlier.size = 1.5, show.legend = FALSE) +
+  scale_fill_brewer(palette = "Spectral") +
+  labs(title    = "Score Distribution for Top 10 Players",
+       subtitle = "Players ordered by median score",
+       x        = "Player ID",
+       y        = "Score") +
+  theme_minimal(base_size = 13) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
