@@ -184,3 +184,15 @@ part4_summary %>%
                       "Avg Score", "# Sessions"),
         caption = "Table 4: Gaming Behaviour by Age Group") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+
+# PART 4 – Step 3: Visualisation
+ggplot(part4_summary,
+       aes(x = age_group, y = avg_play_time_min, fill = age_group)) +
+  geom_col(width = 0.55, show.legend = FALSE) +
+  geom_text(aes(label = avg_play_time_min), vjust = -0.4, size = 3.5) +
+  scale_fill_brewer(palette = "Blues", direction = 1) +
+  labs(title    = "Average Play Time by Age Group",
+       subtitle = "Comparing engagement across player age brackets",
+       x        = "Age Group",
+       y        = "Average Play Time (minutes)") +
+  theme_minimal(base_size = 13)
