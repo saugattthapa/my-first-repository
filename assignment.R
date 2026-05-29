@@ -65,3 +65,9 @@ ggplot(part1_summary,
        x     = "Experience Level",
        y     = "Average Play Time (minutes)") +
   theme_minimal(base_size = 13)
+
+
+# PART 2 – Step 1: Join sessions with games and group by genre
+sessions_genre <- sessions %>%
+  inner_join(games %>% select(game_id, genre), by = "game_id") %>%
+  filter(!is.na(genre))
