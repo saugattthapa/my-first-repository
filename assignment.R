@@ -114,3 +114,25 @@ player_total_time <- sessions %>%
   slice_head(n = 10)
 
 top10_ids <- player_total_time$player_id
+
+# PART 3 – Step 2: Summary table for top 10 players
+part3_summary <- sessions %>%
+  filter(player_id %in% top10_ids) %>%
+  group_by(player_id) %>%
+  summarise(
+    total_sessions    = n(),
+    avg_play_time_min = round(mean(play_time_minutes, na.rm = TRUE), 2),
+    avg_score         = round(mean(score,             na.rm = TRUE), 2),
+    .groups = "drop"
+  ) %>%
+  left_join(player_total_time, by = "player_id") %>%
+  arrange(desc(total_play_time))
+
+part3_summary %>%
+  select(player_id, total_sessions, avg_play_time_min,
+         avg_score, total_play_time) %>%
+  kable(col.names = c("Player ID", "Total Sessions",
+                      "Avg Play Time (min)", "Avg Score",
+                      "Total Play Time (min)"),
+        caption = "Table 3: Top 10 Players by Total Play Time") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
