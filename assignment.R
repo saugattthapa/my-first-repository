@@ -103,3 +103,14 @@ ggplot(part2_summary,
        y     = "Number of Unique Players") +
   theme_minimal(base_size = 13) +
   expand_limits(y = max(part2_summary$num_unique_players) * 1.1)
+
+
+# PART 3 – Step 1: Identify top 10 players by total play time
+player_total_time <- sessions %>%
+  group_by(player_id) %>%
+  summarise(total_play_time = sum(play_time_minutes, na.rm = TRUE),
+            .groups = "drop") %>%
+  arrange(desc(total_play_time)) %>%
+  slice_head(n = 10)
+
+top10_ids <- player_total_time$player_id
